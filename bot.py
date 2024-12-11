@@ -60,7 +60,7 @@ def setup_logging():
         format="%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s",
     )
     logger = logging.getLogger(__name__)
-    logger.info("Starting bot")
+    logger.info("STARTING BOT")
 
 
 def get_storage(config):
@@ -104,4 +104,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
-        logging.error("Бот був вимкнений!")
+        logging.error("STOPPING BOT")
