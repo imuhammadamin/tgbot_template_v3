@@ -1,42 +1,42 @@
-Цей темплейт використовується для розробки Telegram ботів з використанням бібліотеки [`aiogram v3.0+`](https://github.com/aiogram/aiogram/tree/dev-3.x).
+This template is used for developing Telegram bots using the [`aiogram v3.0+`](https://github.com/aiogram/aiogram/tree/dev-3.x) library.
 
 ## SQLAlchemy + Alembic
-В коді є приклади таблички User з використанням SQLAlchemy 2.0, та скрипти для алембіку (ініціалізація алембік, створення та застосування міграцій).
+The code contains examples of a User table using SQLAlchemy 2.0, and scripts for Alembic (alembic initialization, creating and applying migrations).
 
-Але, якщо ви з цими інструментами ніколи не працювали, то зверніться до документації і дізнайтесь про ці інструменти. 
-Також, в мене є англомовний [курс по цим інструментам на Udemy](https://www.udemy.com/course/sqlalchemy-alembic-bootcamp/?referralCode=E9099C5B5109EB747126).
+If you have never worked with these tools before, please refer to the documentation to learn about them. 
+Also, I have an English [course on these tools on Udemy](https://www.udemy.com/course/sqlalchemy-alembic-bootcamp/?referralCode=E9099C5B5109EB747126).
 
 ![img.png](https://img-c.udemycdn.com/course/240x135/5320614_a8af_2.jpg)
 
-### Для того, щоб почати використовувати:
-1. Скопіюйте `.env.dist` в `.env` і заповніть необхідні дані.
-2. Створіть нові хендлери.
+### To start using it:
+1. Copy `.env.dist` to `.env` and fill in the necessary data.
+2. Create new handlers.
 3. **Docker:**
-   1. Можете одразу запускати проєкт із Docker, а якщо в вас його немає, то [завантажте, та встановіть](https://docs.docker.com/get-docker/).
-   2. Запустіть проєкт з команди `docker-compose up`
-4. **Без Docker:**
-   1. Створіть [venv](https://docs.python.org/3/library/venv.html)
-   2. Встановить залежності із requirements.txt: `pip install -r requirements.txt --pre`
-   3. Запустіть проєкт з команди `python3 bot.py`
+   1. You can immediately run the project with Docker. If you don't have it, [download and install it](https://docs.docker.com/get-docker/).
+   2. Run the project with the command `docker-compose up`
+4. **Without Docker:**
+   1. Create a [venv](https://docs.python.org/3/library/venv.html)
+   2. Install dependencies from requirements.txt: `pip install -r requirements.txt --pre`
+   3. Run the project with the command `python3 bot.py`
 
 
-### Як робити та реєструвати хендлери:
-Створюєте модуль `you_name.py` у папці `handlers`.
+### How to create and register handlers:
+Create a module `your_name.py` in the `handlers` folder.
 
-Створюєте роутер у `you_name.py`.
+Create a router in `your_name.py`.
 ```python
 from aiogram import Router
 user_router = Router()
 ```
-Можна робити декілька роутерів в одному модулі, та на кожний з них навішувати хендлери.
-Можна реєструвати хендлери декораторами:
+You can create multiple routers in one module and attach handlers to each of them.
+You can register handlers using decorators:
 ```python
 @user_router.message(commands=["start"])
 async def user_start(message):
-    await message.reply("Вітаю, звичайний користувач!")
+    await message.reply("Hello, regular user!")
 ```
 
-Заходимо у файл `handlers/__init__.py` і додаємо всі роутери в нього:
+Go to the `handlers/__init__.py` file and add all routers to it:
 ```python
 from .admin import admin_router
 from .echo import echo_router
@@ -52,8 +52,8 @@ routers_list = [
 ]
 
 ```
-### Як додати хендлери до нашого бота:
-Переходимо до файлу  `bot.py` та розпаковуємо наші хендлери:
+### How to add handlers to our bot:
+Go to the `bot.py` file and unpack our handlers:
 ```python
 from tgbot.handlers import routers_list
 
@@ -70,21 +70,21 @@ async def main():
 
 ```
 
-### Як запустити Базу Данних та провести свою першу міграцію:
-1. Перейдіть до `.env` файлу та заповніть дані для бази даних, якщо ви не зробили цього раніше.
+### How to start the Database and run your first migration:
+1. Go to the `.env` file and fill in the data for the database, if you haven't done so already.
 
-2. Перейдіть до файлу `docker-compose.yml` та розкоментуйте секції: `api`, `pg_database` і `volumes`, щоб розпочати роботу.
+2. Go to the `docker-compose.yml` file and uncomment the sections: `api`, `pg_database`, and `volumes` to get started.
 
-3. Перейдіть до `config.py` та виконайте `TODO` в функції `construct_sqlalchemy_url`. Також знайдіть розділ функції `load_config` і розкоментуйте рядок, що відповідає ініціалізації конфігурації бази даних `db=DbConfig.from_env(env)`, щоб активувати підключення до бази даних.
+3. Go to `config.py` and implement the `TODO` in the `construct_sqlalchemy_url` function. Also, find the section of the `load_config` function and uncomment the line that corresponds to the database configuration initialization `db=DbConfig.from_env(env)` to activate the database connection.
 
-4. Тепер можемо перезапустити Docker з новими контейнерами, використовуючи команду:
+4. Now we can restart Docker with the new containers using the command:
 
-    `docker-compose up --build.`
+    `docker-compose up --build`
 
-5. Все готово! Тепер можемо провести міграцію!
-Відкрийте термінал та введіть наступну команду:
+5. All set! Now we can run the migration!
+Open the terminal and enter the following command:
 
     `docker-compose exec api alembic upgrade head`
 
-### Туторіали з aiogram v3
-Відосів поки що немає, але @Groosha вже почав робити [свій підручник](https://mastergroosha.github.io/aiogram-3-guide).
+### Tutorials on aiogram v3
+There are no videos yet, but @Groosha has already started creating [his own guide](https://mastergroosha.github.io/aiogram-3-guide).
